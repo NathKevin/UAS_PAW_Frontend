@@ -1,6 +1,10 @@
 <template>
 <div>
     <v-container >
+        <v-toolbar>
+            <h2>Home</h2>    
+        </v-toolbar>
+        <br>
         <v-card>
         </v-card>
         <v-card >
@@ -24,7 +28,7 @@
                         max-width="344"
                     >
                         <v-img
-                            src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+                            :src= imageLogo
                             height="200px"
                         ></v-img>
 
@@ -103,7 +107,7 @@
                         max-width="344"
                     >
                         <v-img
-                            src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+                            src="https://www.jobstreet.co.id/career-resources/wp-content/uploads/sites/7/2021/08/Career-Path_Customer-Service-General-min.jpg"
                             height="200px"
                         ></v-img>
 
@@ -182,7 +186,7 @@
                         max-width="344"
                     >
                         <v-img
-                            src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+                            src="https://assets-us-01.kc-usercontent.com/9e9a95c0-1d15-00d5-e878-50f070203f13/0cff492c-5c80-4a29-8fb1-8b1d43aef52d/market-place-by-jasons-slider-1.jpg"
                             height="200px"
                         ></v-img>
 
@@ -234,6 +238,7 @@ import image from "../../assets/Shop1.jpg"
 import image2 from "../../assets/shop2.jpg"
 import image3 from "../../assets/shop3.jpg"
 import image4 from "../../assets/shop4.jpg"
+import logo from "../../assets/logo.jpg"
 
 
 export default {
@@ -256,7 +261,8 @@ export default {
         ],
         show: false,
         show2: false,
-        show3: false
+        show3: false,
+        imageLogo: logo
         };
     },
 

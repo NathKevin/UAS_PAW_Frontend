@@ -51,12 +51,12 @@
                             required
                         >
                         </v-text-field>
-                        <v-file-input
+                        <v-text-field
                             v-model="form.gambar"
-                            label="File Gambar Produk"
-                            outlined
-                            dense
-                        ></v-file-input>
+                            label="URL Gambar"
+                            required
+                        >
+                        </v-text-field>
                     </v-container>
                 </v-card-text>
                 <v-card-actions>

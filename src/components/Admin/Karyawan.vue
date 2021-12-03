@@ -123,7 +123,7 @@ export default {
                 { text: "Alamat", value: "alamat" },
                 { text: "Cabang", value: "cabang"},
                 { text: "Tempat Lahir", value: "tempat_lahir"},
-                { text: "Tanggal Lahir", value: "tanggal_alhir"},
+                { text: "Tanggal Lahir", value: "tanggal_lahir"},
                 { text: "Actions", value: "actions"},
             ],
             karyawan: new FormData,

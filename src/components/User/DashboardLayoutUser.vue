@@ -1,7 +1,7 @@
 <template>
     <div class="dashboard">
         
-        <v-toolbar class="yellow lighten-4">
+        <v-toolbar class="yellow lighten-4" >
             <v-toolbar-title> <h4 class="mr-4">SUUPAMAKETO</h4> </v-toolbar-title>
             
             <v-toolbar-items>

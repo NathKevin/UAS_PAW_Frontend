@@ -1,41 +1,59 @@
 <template>
   <v-container>
-    <h2 class="display-2 mb-4">Basket</h2>
+    <v-toolbar class="yellow lighten-3" :src= imageBg>
+        <h2>Cart</h2>    
+    </v-toolbar>
+    <br>
+    <v-container>
+        <v-list three-line elevation="10" dense>
+            <v-list-item-group>
+                <v-row>
+                    <v-list-item disabled>
+                        <v-card-text>
+                            Gambar
+                        </v-card-text>
+                        <v-card-text>
+                            Nama Produk
+                        </v-card-text>
+                        <v-card-text>
+                            Jumlah Beli (gr)
+                        </v-card-text>
+                        <v-card-text>
+                            Harga Total
+                        </v-card-text>
+                        <v-card-text>
+                            Action
+                        </v-card-text>
+                    </v-list-item>
+                </v-row>
+                <v-divider></v-divider>
+                <br>
+                <v-row>
+                    <v-list-item  v-for="cart in carts" :key="cart.produk_id" >
+                        <v-img :src='getGambar(cart)' height="100px" width="100px" />
+                        <v-card-text>
+                            {{ getNamaProduk() }}
+                        </v-card-text>
+                        <v-card-text>
+                            {{ cart.qty }} gr
+                        </v-card-text>
+                        <v-card-text>
+                            {{ cart.harga_total }}
+                        </v-card-text>
+                        <v-cart-action>
+                            <v-spacer></v-spacer>
+                            <v-btn color="blue darken-1" text @click="dialogConfirm = false" icon> <v-icon>mdi-delete</v-icon> </v-btn>
+                        </v-cart-action>
+                    </v-list-item>
+                </v-row>
+                <br>
+            </v-list-item-group>
 
-    <v-list two-line>
-      <template v-for="(product, index) in products">
-        <v-list-tile :key="product.product_id" avatar>
-          <v-list-tile-avatar>
-            <img :src="product.photo">
-          </v-list-tile-avatar>
+        </v-list>
 
-          <v-list-tile-content>
-            <v-list-tile-title v-html="product.title"></v-list-tile-title>
-            <v-list-tile-sub-title v-html="product.sub_title"></v-list-tile-sub-title>
-          </v-list-tile-content>
+    </v-container>
 
-          <v-list-tile>
-            {{product.price}}$
-          </v-list-tile>
-
-          <v-list-tile-action>
-            <v-text-field label="Quantity" reverse :value="product.qty"></v-text-field>
-          </v-list-tile-action>
-
-          <v-list-tile>
-            {{product.price * product.qty}}$
-          </v-list-tile>
-
-          <v-list-tile-action>
-            <v-btn icon ripple>
-              <v-icon color="red lighten-1">delete</v-icon>
-            </v-btn>
-          </v-list-tile-action>
-        </v-list-tile>
-
-        <v-divider v-if="index + 1 < products.length" :key="index"></v-divider>
-      </template>
-    </v-list>
+    <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
 
     <v-container>
       <v-btn color="success" larger style="float: right;">Go to payment</v-btn>
@@ -44,34 +62,71 @@
 </template>
 
 <script>
+import bg from "../../assets/supamaketo.png"
+
   export default {
-    data: () => ({
-      products: [{
-        product_id: 'kitchen-1',
-        photo: 'https://cdn.vuetifyjs.com/images/cards/kitchen.png',
-        title: 'QW cooking utensils',
-        sub_title: 'Our vintage kitchen utenils delight any chef. Made of bamboo by hand',
-        price: 14.99,
-        qty: 1
-      },{
-        product_id: 'kitchen-1',
-        photo: 'https://cdn.vuetifyjs.com/images/cards/kitchen.png',
-        title: 'QW cooking utensils',
-        sub_title: 'Our vintage kitchen utenils delight any chef. Made of bamboo by hand',
-        price: 44.99,
-        qty: 2
-      },{
-        product_id: 'kitchen-1',
-        photo: 'https://cdn.vuetifyjs.com/images/cards/kitchen.png',
-        title: 'QW cooking utensils',
-        sub_title: 'Our vintage kitchen utenils delight any chef. Made of bamboo by hand',
-        price: 64.99,
-        qty: 2
-      }]
-    })
+    name: 'Cart',
+    data() {
+      return {
+        valid: true,
+        load: false,
+        snackbar: false,
+        error_message: '',
+        color: '',
+        imageBg: bg,
+        carts: [],
+        produks: [],
+        userId:'',
+      }
+    },
+
+    methods: {
+        readDataProduk(){
+            var url = this.$api + '/produk';
+            this.$http.get(url, {
+                headers: {
+                    'Authorization' : 'Bearer ' + localStorage.getItem('token')
+                }
+            }).then(response => {
+                this.produks = response.data.data;
+            })
+        },
+
+        readDataCart(){
+            var url = this.$api + '/user_id/' + this.userId + '/checkout/' + 0;
+            this.$http.get(url, {
+                headers: {
+                    'Authorization' : 'Bearer ' + localStorage.getItem('token')
+                }
+            }).then(response => {
+                this.carts = response.data.data;
+            })
+        },
+
+        getGambar(cart){
+            let temp;
+
+            for(let i = 0; i < this.produks.length; i++){
+                console.log(cart.produk_id);
+                if(this.produks[i].id === cart.produk_id)
+                    temp = this.produks[i].gambar; 
+            }
+            
+            return temp;
+        },
+
+        getNamaProduk(){
+            
+        }
+    },
+
+    beforeMount(){
+        this.userId = localStorage.getItem('id');
+        this.readDataProduk();
+        this.readDataCart();
+    }
   }
 </script>
 
-<style scoped>
-
+<style>
 </style>

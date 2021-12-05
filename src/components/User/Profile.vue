@@ -106,9 +106,8 @@ export default {
                 this.color = "green";
                 this.snackbar = true;
                 this.load = false;
-                this.close();
-                this.readData(); //Baca data
-                this.resetForm();
+                localStorage.removeItem('name')
+                localStorage.setItem('name',newData.name)
                 this.disabled = (this.disabled + 1) % 2;
             }).catch(error => {
                 this.error_message = error.response.data.message;

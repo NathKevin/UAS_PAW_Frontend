@@ -133,7 +133,7 @@ export default {
                     'Authorization' : 'Bearer ' + localStorage.getItem('token'),
                 }
             }).then(response => {
-                this.error_message = response.data.message;
+                this.error_message = "Produk added" + response.data.message;
                 this.color = "green";
                 this.snackbar = true;
                 this.load = true;

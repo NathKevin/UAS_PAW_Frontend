@@ -6,7 +6,7 @@
         </v-toolbar>
         <br>
 
-        <h1>Welcome</h1>
+        <h1>Welcome {{ name }}</h1>
         <h3>Selamat datang di website Suupamaketo</h3>
 
         <br>
@@ -76,7 +76,7 @@
                         <v-spacer></v-spacer>
 
                        <v-btn
-                            color="orange lighten-2"
+                            color="orange darken-2"
                             text
                             @click="show = !show"
                         >
@@ -120,7 +120,7 @@
                         <v-spacer></v-spacer>
 
                         <v-btn
-                            color="orange lighten-2"
+                            color="orange darken-2"
                             text
                             @click="show2 = !show2"
                         >
@@ -178,7 +178,7 @@
                         <v-spacer></v-spacer>
 
                         <v-btn
-                            color="orange lighten-2"
+                            color="orange darken-2"
                             text
                             @click="show3 = !show3"
                         >
@@ -252,6 +252,7 @@ export default {
             imageLogo: logo,
             imageBg : bg,
             produks: [],
+            name:'',
         };
     },
 
@@ -270,6 +271,7 @@ export default {
 
     beforeMount(){
         this.getProduk();
+        this.name = localStorage.getItem('name');
     }
 };
 </script>

@@ -11,7 +11,9 @@
                 <v-form v-model="valid" ref="form">
                     <br>
                     <v-text-field :disabled="disabled === 1"  dense label="Name" v-model="form.name" :rules="nameRules" required ></v-text-field>
+                    <br>
                     <v-text-field :disabled="disabled === 1" dense label="No Telp" v-model="form.noTelp" :rules="noTelpRules" required></v-text-field>
+                    <br>
                     <v-text-field :disabled="disabled === 1" dense label="Alamat" v-model="form.alamat" :rules="alamatRules" required></v-text-field>
                     <br>
                     <v-layout justify-center>
@@ -49,9 +51,13 @@ export default {
             },
             nameRules: [
                 (v) => !!v || 'Nama tidak boleh kosong',
+                (v) => (v && v.length <= 60) || 'Nama maksimal 60 karakter',
             ],
             noTelpRules: [
                 (v) => !!v || 'No Telepon tidak boleh kosong',
+                (v) => (v && v[0] == 0 && v[1] == 8) || "Nomor HP harus diawali 08",
+                (v) => (v && v.length <= 13) || "Nomor HP harus kurang dari 13",
+                (v) => (v && v.length >= 10) || "Nomor HP harus lebih dari 10",
             ],
             alamatRules: [
                 (v) => !!v || 'Password tidak boleh kosong',
@@ -109,6 +115,7 @@ export default {
                 localStorage.removeItem('name')
                 localStorage.setItem('name',newData.name)
                 this.disabled = (this.disabled + 1) % 2;
+                this.editHandler()
             }).catch(error => {
                 this.error_message = error.response.data.message;
                 this.color = "red";

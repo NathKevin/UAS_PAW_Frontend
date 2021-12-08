@@ -28,6 +28,9 @@
                 </v-row>
                 <v-divider></v-divider>
                 <br>
+                <v-card-title v-if="empty == true" class="justify-center">
+                    Cart Empty
+                </v-card-title>
                 <v-row>
                     <v-list-item  v-for="cart in carts" :key="cart.produk_id" >
                         <v-col>
@@ -78,7 +81,7 @@
     <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
 
     <v-container>
-      <v-btn color="success" larger style="float: right;" @click="checkoutHandler()">Go to payment</v-btn>
+      <v-btn :disabled="disabled === 1" color="success" larger style="float: right;" @click="checkoutHandler()">Go to payment</v-btn>
     </v-container>
 
     <v-dialog v-model="dialog" persistent max-width="600px">
@@ -132,6 +135,8 @@ import bg from "../../assets/supamaketo.png"
     name: 'Cart',
     data() {
       return {
+        empty:true,
+        disabled: 1,
         debitCard: false,
         dialog: false,
         valid: true,
@@ -197,6 +202,14 @@ import bg from "../../assets/supamaketo.png"
                 }
             }).then(response => {
                 this.carts = response.data.data;
+                if(this.carts !== null){
+                    this.disabled = 0;
+                    this.empty = false;
+                }else{
+                    this.disabled = 1;
+                    this.empty = true;
+                }
+                
             })
         },
 
@@ -379,9 +392,11 @@ import bg from "../../assets/supamaketo.png"
             let temp;
             let totalTemp = 0;
 
-             for(let i = 0; i < this.carts.length; i++){
-                temp = totalTemp;
-                totalTemp = parseInt(temp + this.carts[i].harga_total);
+            if(this.carts !== null){
+                for(let i = 0; i < this.carts.length; i++){
+                   temp = totalTemp;
+                   totalTemp = parseInt(temp + this.carts[i].harga_total);
+               }
             }
             return totalTemp;
         },

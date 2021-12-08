@@ -19,7 +19,7 @@
                                     <v-text-field label="Name" v-model="name" :rules="nameRules" required></v-text-field>
                                     <v-text-field label="No Telp" v-model="noTelp" :rules="noTelpRules" required></v-text-field>
                                     <v-text-field label="Alamat" v-model="alamat" :rules="alamatRules" required></v-text-field>
-                                    <v-text-field label="E-mail" v-model="email" :rules="emailRules" required></v-text-field>
+                                    <v-text-field type="email" label="E-mail" v-model="email" :rules="emailRules" required></v-text-field>
                                     <v-text-field label="Password" v-model="password" type="password" min="8" :rules="passwordRules" counter required>
                                     </v-text-field>
                                     <v-layout justify-center>
@@ -40,7 +40,7 @@
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Dongle&family=M+PLUS+2:wght@500&display=swap');
-    .grey--text{
+    .Black--text{
         font-family: 'M PLUS 2', sans-serif;
     }
 
@@ -73,18 +73,23 @@ export default {
             email: '',
             emailRules: [
                 (v) => !!v || 'E-mail tidak boleh kosong',
+                (v) => /.+@.+\..+/.test(v) || "Email format invalid",
             ],
             name: '',
             nameRules: [
                 (v) => !!v || 'Nama tidak boleh kosong',
+                (v) => (v && v.length <= 60) || 'Nama maksimal 60 karakter',
             ],
             noTelp: '',
             noTelpRules: [
                 (v) => !!v || 'No Telepon tidak boleh kosong',
+                (v) => (v && v[0] == 0 && v[1] == 8) || "Nomor HP harus diawali 08",
+                (v) => (v && v.length <= 13) || "Nomor HP harus kurang dari 13",
+                (v) => (v && v.length >= 10) || "Nomor HP harus lebih dari 10",
             ],
             alamat: '',
             alamatRules: [
-                (v) => !!v || 'Password tidak boleh kosong',
+                (v) => !!v || 'Alamat tidak boleh kosong',
             ],
         };
     },
@@ -112,7 +117,8 @@ export default {
                         name: 'Login',
                     });
                 }).catch(error => {
-                    this.error_message = error.response.data.message;
+                    this.error_message = "Email sudah terdaftar"
+                    console.log(error.response.data.message);
                     this.color = "red";
                     this.snackbar = true;
                     this.load = false;

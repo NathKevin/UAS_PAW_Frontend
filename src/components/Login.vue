@@ -70,6 +70,7 @@ export default {
             email: '',
             emailRules: [
                 (v) => !!v || 'E-mail tidak boleh kosong',
+                (v) => /.+@.+\..+/.test(v) || "Email format invalid",
             ]
         };
     },
